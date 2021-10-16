@@ -40,9 +40,12 @@ INSTALLED_APPS = [
 
     #local
     'accounts',
+    'farmers',
 
     #thirdparty
     'django.contrib.sites',
+    'corsheaders',
+
 
     'rest_framework',
     'rest_framework.authtoken',
@@ -54,6 +57,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -138,6 +142,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+MEDIA_ROOT = '/media/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -145,3 +150,11 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 SITE_ID=1
+
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:8080',
+]
+
+REST_AUTH_SERIALIZERS ={
+    'USER_DETAILS_SERIALIZER':'accounts.serializers.UserSerializer'
+}
