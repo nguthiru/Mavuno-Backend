@@ -1,9 +1,13 @@
 from django.shortcuts import render
 from rest_framework import generics,viewsets
-from rest_framework.decorators import action, api_view
+from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated,AllowAny
+from customers.models import OrderItem
+from customers.serializers import OrderItemSerializer
 from farmers.models import Bid, Farm, Produce
 from farmers.serializers import BidSerializer, FarmSerializer, ProduceSerializer
+from shops.serializers import FarmItemImagesSerializer, FarmItemSerializer, ShopSerializer
+from shops.models import FarmItem, Shop
 from rest_framework.response import Response
 # Create your views here.
 
@@ -11,8 +15,7 @@ class ProduceViewSet(viewsets.ModelViewSet):
     serializer_class = ProduceSerializer
 
     def get_queryset(self):
-        print(self.request.user.id)
-        return Produce.objects.filter(farm__user=self.request.user.id)
+        return Produce.objects.all()
 
 
     def get_permissions(self):
@@ -29,20 +32,21 @@ class BidViewSet(viewsets.ModelViewSet):
     serializer_class = BidSerializer
 
     def get_queryset(self):
-        return Bid.objects.filter(produce__farm__user=self.request.user.id)
+        return Bid.objects.filter(user=self.request.user.id)
 
-class FarmViewSet(viewsets.ModelViewSet):
-    queryset = Farm.objects.all()
-    serializer_class = FarmSerializer
+class ShopViewSet(viewsets.ModelViewSet):
+    serializer_class = ShopSerializer
 
-@api_view(['GET'])
-def myfarm(request):
-    try:
-        farm = Farm.objects.get(user=request.user.id)
-        serialized = FarmSerializer(farm)
-    
+    queryset = Shop.objects.all()
 
-        return Response(serialized.data)
-    except Exception as e:
-        return Response({'error':str(e)},status=400)
 
+class ItemViewSet(viewsets.ModelViewSet):
+    serializer_class = FarmItemSerializer
+    queryset = FarmItem.objects.all()
+
+
+def view_cart(request):
+    order_qs = OrderItem.objects.filter(user=request.user,paid=False)
+    serializer_class = OrderItemSerializer(order_qs,many=True)
+
+    return Response(serializer_class.data)

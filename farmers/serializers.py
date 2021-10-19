@@ -35,6 +35,7 @@ class ProduceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Produce
         fields = ['name','farm','product','weight_kgs','starting_price','least_orderable','date_added','produce_images']
+        ordering = ['-date_added']
 
 class BidSerializer(serializers.ModelSerializer):
 
@@ -42,4 +43,5 @@ class BidSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
     class Meta:
         model = Bid
-        fields = ['user','produce','kilograms','bid_price','rejected','pending','date_made']
+        fields = ['user','produce','kilograms','bid_price','status','date_made']
+        ordering = ['date_made']

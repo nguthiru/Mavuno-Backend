@@ -5,9 +5,8 @@ from .views import *
 router = DefaultRouter()
 
 router.register('produce',ProduceViewSet,basename='produce')
-router.register('farm',FarmViewSet,basename='farm')
 router.register("bids",BidViewSet,basename="bids")
-urlpatterns = [
-    path("farm/myfarm/",myfarm,name='my-farm')
-]
-urlpatterns+= router.urls
+router.register('shops',ShopViewSet,basename='shops')
+router.register('farm-items',ItemViewSet,basename='farm-items')
+
+urlpatterns = router.urls

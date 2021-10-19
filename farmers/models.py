@@ -14,9 +14,6 @@ class Farm(models.Model):
     def __str__(self) -> str:
         return self.farm_name
 
-
-
-
 #Location model
 class Location(models.Model):
     longitude = models.CharField(max_length=100,blank=True,null=True)
@@ -77,6 +74,10 @@ class ProduceImages(models.Model):
         verbose_name_plural = 'Produce Images'
 
 
+    def __str__(self): 
+        return f'{self.produce} - {self.image}'
+
+
 
 class Bid(models.Model):
     status_values = (('A','Accepted'),('P','Pending'),('R','Rejected'))
@@ -84,9 +85,8 @@ class Bid(models.Model):
     produce = models.ForeignKey(Produce, on_delete=models.CASCADE,related_name="bid_produce")
     kilograms = models.IntegerField()
     bid_price = models.DecimalField(decimal_places=2,max_digits=16)
-    rejected = models.BooleanField(default=False)
-    pending = models.BooleanField(default=True)
-    # bid_status = models.CharField(choices=status_values,default="P",max_length=1)
+
+    status = models.CharField(choices=status_values,default="P",max_length=1)
     date_made = models.DateTimeField(auto_now_add=True)
 
     def total_price(self):

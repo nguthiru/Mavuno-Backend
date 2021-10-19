@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     #local
     'accounts',
     'farmers',
+    'customers',
+    'shops',
 
     #thirdparty
     'django.contrib.sites',
@@ -154,7 +156,11 @@ SITE_ID=1
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:8080',
 ]
-
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',  # <-- And here
+    ],
+}
 REST_AUTH_SERIALIZERS ={
     'USER_DETAILS_SERIALIZER':'accounts.serializers.UserSerializer'
 }
