@@ -7,4 +7,6 @@ class OrderItemSerializer(serializers.ModelSerializer):
     item = FarmItemSerializer()
     class Meta:
         model = OrderItem
-        fields = ['item','user','quantity']
+        fields = ['id','item','user','quantity']
+
+        

@@ -6,9 +6,10 @@ from shops.models import FarmItem
 User = get_user_model()
 
 class OrderItem(models.Model):
-    item = models.ForeignKey(FarmItem,on_delete=models.CASCADE,related_name='order-item')
-    user = models.ForeignKey(User,on_delete=models.CASCADE,related_name='order-user')       
-    quantity = models.IntegerField()
+    item = models.ForeignKey(FarmItem,on_delete=models.CASCADE,related_name='order_item')
+    user = models.ForeignKey(User,on_delete=models.CASCADE,related_name='orders_user')       
+    quantity = models.IntegerField(default=1)
+    paid = models.BooleanField(default=False)
 
 
     def __str__(self) -> str:

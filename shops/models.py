@@ -8,6 +8,7 @@ class Shop(models.Model):
     user = models.ForeignKey(USER,on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     city = models.CharField(max_length=255)
+    image = models.ImageField(blank=True,null=True)
     date_joined = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:

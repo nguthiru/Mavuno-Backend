@@ -9,11 +9,14 @@ class BranchSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 class FarmSerializer(serializers.ModelSerializer):
-    user = serializers.SerializerMethodField("get_user")
+    # user = serializers.SerializerMethodField("get_user")
     branch = BranchSerializer(many=True,read_only=True)
     class Meta:
         model = Farm
-        fields = ["user","farm_name","city","image","branch"]
+        fields = ['id',"farm_name","city","image","branch"]
+
+
+
 
     def get_user(self,farm):
         from accounts.serializers import UserSerializer
@@ -34,8 +37,8 @@ class ProduceSerializer(serializers.ModelSerializer):
     farm = FarmSerializer(read_only=True)
     class Meta:
         model = Produce
-        fields = ['name','farm','product','weight_kgs','starting_price','least_orderable','date_added','produce_images']
-        ordering = ['-date_added']
+        fields = ['id','name','farm','product','weight_kgs','starting_price','least_orderable','date_added','produce_images']
+        ordering = ['-date_added',]
 
 class BidSerializer(serializers.ModelSerializer):
 
@@ -43,5 +46,5 @@ class BidSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
     class Meta:
         model = Bid
-        fields = ['user','produce','kilograms','bid_price','status','date_made']
-        ordering = ['date_made']
+        fields = ['id','user','produce','kilograms','bid_price','status','date_made']
+        ordering = ['-date_made',]

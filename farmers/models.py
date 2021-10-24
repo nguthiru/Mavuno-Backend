@@ -62,7 +62,11 @@ class Produce(models.Model):
     
 
     def __str__(self) -> str:
-        return f'{self.farm.farm_name}-{self.name}'
+        return f'{self.farm.farm_name}-{self.product}'
+
+
+    class Meta:
+        ordering = ('-date_added',)
 class ProduceImages(models.Model):
     produce = models.ForeignKey(Produce,on_delete=models.CASCADE,related_name='produce_images',blank=True,null=True)
 
@@ -97,6 +101,10 @@ class Bid(models.Model):
 
     def __str__(self):
         return f'{self.user} - {self.produce.farm} - {self.bid_price}'
+
+
+    class Meta:
+        ordering = ('-date_made',)
 
 
 

@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'farmers',
     'customers',
     'shops',
+    'finance',
 
     #thirdparty
     'django.contrib.sites',

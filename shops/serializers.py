@@ -3,7 +3,7 @@ from .models import FarmItem, ItemImages, Ratings, Shop
 class ShopSerializer(serializers.ModelSerializer):
     class Meta:
         model = Shop
-        fields = ['user','name','city']
+        fields = ['id','user','name','city','image']
 class RatingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ratings
@@ -20,6 +20,6 @@ class FarmItemSerializer(serializers.ModelSerializer):
     image = FarmItemImagesSerializer(many=True)
     class Meta:
         model = FarmItem
-        fields = ['shop','name','description','price','image']
+        fields = ['id','shop','name','description','price','image']
 
 
