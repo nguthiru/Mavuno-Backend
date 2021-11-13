@@ -2,7 +2,7 @@ from rest_framework import serializers
 from accounts.serializers import UserSerializer
 
 from farmers.models import Bid, Branch, Farm, Produce, ProduceImages, Product
-
+from rest_polymorphic.serializers import PolymorphicSerializer
 class BranchSerializer(serializers.ModelSerializer):
     class Meta:
         model = Branch
@@ -30,6 +30,8 @@ class ProduceImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProduceImages
         fields = ['image']
+
+
 class ProduceSerializer(serializers.ModelSerializer):
 
     produce_images = ProduceImageSerializer(many=True)
@@ -48,3 +50,10 @@ class BidSerializer(serializers.ModelSerializer):
         model = Bid
         fields = ['id','user','produce','kilograms','bid_price','status','date_made']
         ordering = ['-date_made',]
+
+class UniversalSerializer(PolymorphicSerializer):
+    model_serializer_mapping = {
+        Bid:BidSerializer,
+        Produce:ProduceSerializer,
+        Farm:FarmSerializer
+    }
