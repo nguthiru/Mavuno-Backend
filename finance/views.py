@@ -57,7 +57,6 @@ class TransactionViewSet(viewsets.ModelViewSet):
         response['bids'] = bids
         response['subs'] = subs
         response['deposits'] = deposits
-        print(response)
 
 
         return Response(response,status=200)

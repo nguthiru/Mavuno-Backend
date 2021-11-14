@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.utils import timezone
+from django.db.models.signals import post_save
+from finance.models import Transaction, Wallet, WalletAction
 # Create your models here.
 USER = get_user_model()
 class Farm(models.Model):
@@ -106,8 +108,13 @@ class Bid(models.Model):
     class Meta:
         ordering = ('-date_made',)
 
+def create_bid_transaction(sender,instance,created,**kwargs):
+    if created:
+        wallet_action = WalletAction.objects.get(action='B')
+        wallet = Wallet.objects.get(user=instance.user)
+        Transaction.objects.create(wallet=wallet,amount=((instance.bid_price*instance.kilograms)/1000),wallet_action=wallet_action)
 
-
+post_save.connect(create_bid_transaction,sender=Bid)
 
 
 

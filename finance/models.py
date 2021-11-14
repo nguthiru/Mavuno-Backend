@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey 
 import uuid
+from django.db.models.signals import post_save
 # Create your models here.
 
 User = get_user_model()
@@ -28,15 +29,25 @@ class Transaction(models.Model):
     wallet = models.ForeignKey(Wallet,on_delete=models.CASCADE)
     uuid = models.UUIDField(unique=True,default=uuid.uuid4,editable=False)
     date_added = models.DateTimeField(auto_now_add=True)
-    amount = models.IntegerField()
+    amount = models.DecimalField(max_digits=100,decimal_places=2)
     wallet_action = models.ForeignKey(WalletAction,on_delete=models.DO_NOTHING,null=True)
     description = models.CharField(max_length=255,default="Bid made to Afraha")
-
-
 
     def __str__(self) -> str:
         return f'{self.wallet} - {self.amount}'
 
+def transaction_wallet_update(sender,instance,**kwargs):
+    wallet_action = instance.wallet_action
+    wallet=Wallet.objects.get(id=instance.wallet.id)
+
+    if wallet_action.credit:
+        wallet.balance = float(wallet.balance)-instance.amount
+        wallet.save()
+    else:
+        wallet.balance = float(wallet.balance)+instance.amount
+        wallet.save()
+
+post_save.connect(transaction_wallet_update,sender=Transaction)
 class Service(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
