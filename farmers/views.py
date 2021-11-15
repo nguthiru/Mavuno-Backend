@@ -27,6 +27,10 @@ class ProduceViewSet(viewsets.ModelViewSet):
             permission_classes = [IsAuthenticated]
         return [permission() for permission in permission_classes]
 
+    @action(methods=["GET"],detail=False)
+    def stats(self):
+        pass
+
 class BidViewSet(viewsets.ModelViewSet):
     serializer_class = BidSerializer
 

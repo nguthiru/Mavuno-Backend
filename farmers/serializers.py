@@ -13,7 +13,7 @@ class FarmSerializer(serializers.ModelSerializer):
     branch = BranchSerializer(many=True,read_only=True)
     class Meta:
         model = Farm
-        fields = ['id',"farm_name","city","image","branch"]
+        fields = ['id',"farm_name","city","image","branch","available"]
 
 
 

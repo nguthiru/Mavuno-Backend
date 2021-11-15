@@ -68,6 +68,7 @@ class BidViewSet(viewsets.ModelViewSet):
                 'error': "The entered values are not accepted"
             }
             return Response(error,status=400)
+            
         
 
 class ShopViewSet(viewsets.ModelViewSet):

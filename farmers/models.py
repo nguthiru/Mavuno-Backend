@@ -10,6 +10,7 @@ class Farm(models.Model):
     farm_name = models.TextField()
     city = models.CharField(max_length=255)
     date_joined = models.DateTimeField(default=timezone.now)
+    available = models.BooleanField(default=False)
     image = models.ImageField(upload_to='farmLogos',blank=True,null=True)
 
 
