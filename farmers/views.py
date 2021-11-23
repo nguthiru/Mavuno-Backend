@@ -1,12 +1,18 @@
+from django.db.models.aggregates import Count
 from django.shortcuts import render
 from rest_framework import generics,viewsets
 from rest_framework.decorators import action, api_view
 from rest_framework.permissions import IsAuthenticated,AllowAny
-from farmers.models import Bid, Farm, Produce
-from farmers.serializers import BidSerializer, FarmSerializer, ProduceSerializer
+from market.models import MarketPrice
+from farmers.models import Bid, Farm, Produce, Product, TrackedProducts
+from farmers.serializers import BidSerializer, FarmSerializer, ProduceSerializer, ProductSerializer
 from rest_framework.response import Response
+from market.serializers import MarketPriceSerailizer
 # Create your views here.
 
+class ProductViewSet(viewsets.ReadOnlyModelViewSet):
+    serializer_class = ProductSerializer
+    queryset = Product.objects.all()
 class ProduceViewSet(viewsets.ModelViewSet):
     serializer_class = ProduceSerializer
 
@@ -27,10 +33,6 @@ class ProduceViewSet(viewsets.ModelViewSet):
             permission_classes = [IsAuthenticated]
         return [permission() for permission in permission_classes]
 
-    @action(methods=["GET"],detail=False)
-    def stats(self):
-        pass
-
 class BidViewSet(viewsets.ModelViewSet):
     serializer_class = BidSerializer
 
@@ -40,6 +42,20 @@ class BidViewSet(viewsets.ModelViewSet):
 class FarmViewSet(viewsets.ModelViewSet):
     queryset = Farm.objects.all()
     serializer_class = FarmSerializer
+
+
+    @action(methods=['GET'],detail=False)
+    def favproducts(self,*args,**kwargs):
+        products = TrackedProducts.objects.filter(user=self.request.user)
+        res = []
+
+        for product in products:
+
+            price = MarketPrice.objects.filter(product=product.id)
+
+            res.append(MarketPriceSerailizer(price,many=True).data)
+
+        return Response(res)
 
 @api_view(['GET'])
 def myfarm(request):

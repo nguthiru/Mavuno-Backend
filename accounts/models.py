@@ -5,7 +5,7 @@ from django.utils import timezone
 # Create your models here.
 
 class User(AbstractUser):
-    choices = (('F', 'Farmer'), ('N', 'Normal'),('A','Agrovet'),('P','Professional'))
+    choices = (('F', 'Farmer'), ('N', 'Normal'),('A','Agrovet'),('P','Professional'),('B','Business'))
     username = models.CharField(max_length=20,blank=False,null=False)
     email = models.EmailField(unique=True, max_length=255,)
     phone = models.CharField(max_length=13,blank=False,null=False)
@@ -18,7 +18,7 @@ class User(AbstractUser):
    
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['phone', 'username', 'usertype']
+    REQUIRED_FIELDS = ['phone', 'username', 'usertype','first_name','last_name']
 
     def __str__(self):
         return self.email

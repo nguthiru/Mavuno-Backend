@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from django.utils import timezone
 from django.db.models.signals import post_save
-from finance.models import Transaction, Wallet, WalletAction
+from finance.models import Transaction, User, Wallet, WalletAction
 # Create your models here.
 USER = get_user_model()
 class Farm(models.Model):
@@ -118,6 +118,11 @@ def create_bid_transaction(sender,instance,created,**kwargs):
 post_save.connect(create_bid_transaction,sender=Bid)
 
 
+class TrackedProducts(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    product = models.ForeignKey(Product,on_delete=models.CASCADE)
 
+    def __str__(self) -> str:
+        return f'{self.product.product_name}'
 
     

@@ -7,6 +7,7 @@ router = DefaultRouter()
 router.register('produce',ProduceViewSet,basename='produce')
 router.register('farm',FarmViewSet,basename='farm')
 router.register("bids",BidViewSet,basename="bids")
+router.register("products",ProductViewSet,basename="product")
 urlpatterns = [
     path("farm/myfarm/",myfarm,name='my-farm')
 ]

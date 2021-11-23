@@ -37,10 +37,15 @@ class ProduceSerializer(serializers.ModelSerializer):
     produce_images = ProduceImageSerializer(many=True)
     product = ProductSerializer(read_only=True)
     farm = FarmSerializer(read_only=True)
+    bid_count = serializers.SerializerMethodField('get_bid_count')
     class Meta:
         model = Produce
-        fields = ['id','name','farm','product','weight_kgs','starting_price','least_orderable','date_added','produce_images']
+        fields = ['id','name','farm','product','weight_kgs','starting_price','least_orderable','date_added','produce_images','bid_count']
         ordering = ['-date_added',]
+
+    def get_bid_count(self,obj):
+        return obj.bid_produce.all().count()
+
 
 class BidSerializer(serializers.ModelSerializer):
 

@@ -22,5 +22,7 @@ urlpatterns = [
     path('auth/',include('accounts.urls')),
     path('farmers/',include('farmers.urls')),
     path('customers/',include('customers.urls')),
-    path('finance/',include('finance.urls'))
+    path('finance/',include('finance.urls')),
+    path('market/',include('market.urls')),
+    path('shops/',include('shops.urls'))
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

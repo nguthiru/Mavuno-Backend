@@ -10,6 +10,8 @@ class OrderItem(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE,related_name='orders_user')       
     quantity = models.IntegerField(default=1)
     paid = models.BooleanField(default=False)
+    date_added = models.DateTimeField(auto_now_add=True)
+    date_paid = models.DateTimeField(null=True,blank=True)
 
 
     def __str__(self) -> str:
