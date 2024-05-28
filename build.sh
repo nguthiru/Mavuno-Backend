@@ -3,6 +3,9 @@
 # Exit on error
 set -o errexit
 
+python -m venv newenv
+source newenv/bin/activate  # On Windows use `newenv\Scripts\activate`
+
 # Modify this line as needed for your package manager (pip, poetry, etc.)
 pip install -r requirements.txt
 
