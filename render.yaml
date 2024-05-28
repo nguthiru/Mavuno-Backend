@@ -1,8 +1,8 @@
 databases:
   - name: mavuno-db
     plan: free
-    databaseName: mavuno-db
-    user: mavuno-db-user
+    databaseName: mavuno_db
+    user: mavuno_db_user
 
 services:
   - type: web
